@@ -49,6 +49,11 @@ function onConnected() {
 function onError(error) {
     connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
     connectingElement.style.color = 'red';
+    console.log("error occur    ->"+error.message)
+    alert("connection lost retrying")
+    setTimeout(() => {
+        connect(event);
+    }, 5000);
 }
 
 
@@ -72,7 +77,7 @@ const requestOptions = {
     redirect: "follow"
   };
   
-  fetch("http://localhost:9090/chats/public", requestOptions)
+  fetch("/chats/public", requestOptions)
   .then((response) => response.json())
   .then((result) => {
       result.forEach((message) => {
