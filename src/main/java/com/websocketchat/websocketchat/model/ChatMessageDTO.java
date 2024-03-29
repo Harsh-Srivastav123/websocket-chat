@@ -1,17 +1,16 @@
 package com.websocketchat.websocketchat.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class ChatMessageDTO {
 
     private MessageType type;
     private String content;
     private String sender;
+    private  String groupTopic;
 }

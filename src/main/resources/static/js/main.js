@@ -1,45 +1,99 @@
 'use strict';
 
+
+
+
 var usernamePage = document.querySelector('#username-page');
 var chatPage = document.querySelector('#chat-page');
 var usernameForm = document.querySelector('#usernameForm');
 var messageForm = document.querySelector('#messageForm');
 var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
+var loadingIcon=document.querySelector('#loading-icon')
 var connectingElement = document.querySelector('.connecting');
 
 var stompClient = null;
 var username = null;
+var groupTopic=null;
+var status=false;
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
+loadingIcon.style.visibility = 'hidden';
 
 function connect(event) {
     username = document.querySelector('#name').value.trim();
+    groupTopic=document.querySelector('#groupTopic').value.trim();
+    if(groupTopic.length==0){
+        groupTopic="public";
+    }
 
+
+
+
+    //api fetch 
+
+
+    const requestOptions = {
+        method: "GET",
+        redirect: "follow"
+      };
+      
+
+    //   .then((response) => response.json())
+    //   .then((result) => {
+    //       result.forEach((message) => {
+    //           onMessageReceived({ body: JSON.stringify(message) });
+    //       });
+    //   })
+    //   .catch((error) => console.error(error));
+      const apiFetch=async()=>{
+        const data=await fetch("/chats/"+groupTopic, requestOptions)
+        const result=await data.json();
+        result.forEach((message) => {
+            onMessageReceived({ body: JSON.stringify(message) });
+        
+      })
+    }
+      apiFetch();
+    
+      
+    //   const delay = ms => new Promise(res => setTimeout(res, ms));
+
+
+    // async function main() {
+    //     await sleep(3000);
+    //     console.log("Hello");
+    //   }
+    
     if(username) {
+   
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
 
-        var socket = new SockJS('/server');
+        var socket = new SockJS('/server');//ws connection
         stompClient = Stomp.over(socket);
 
         stompClient.connect({}, onConnected, onError);
     }
     event.preventDefault();
+
 }
 
 
 function onConnected() {
+    loadingIcon.style.visibility = 'hidden';
     // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/public', onMessageReceived);
-
+    stompClient.subscribe('/topic/'+groupTopic, onMessageReceived);
+    
+    
+    
     // Tell your username to the server
     stompClient.send("/app/chat.addUser",
         {},
-        JSON.stringify({sender: username, type: 'JOIN'})
+        JSON.stringify({sender: username, type: 'JOIN',groupTopic : groupTopic})
     )
 
     connectingElement.classList.add('hidden');
@@ -47,10 +101,11 @@ function onConnected() {
 
 
 function onError(error) {
+    loadingIcon.style.visibility = 'visible';
     connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
     connectingElement.style.color = 'red';
     console.log("error occur    ->"+error.message)
-    alert("connection lost retrying")
+    // alert("connection lost retrying")
     setTimeout(() => {
         connect(event);
     }, 5000);
@@ -63,7 +118,8 @@ function sendMessage(event) {
         var chatMessage = {
             sender: username,
             content: messageInput.value,
-            type: 'CHAT'
+            type: 'CHAT',
+            groupTopic : groupTopic
         };
         stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
         messageInput.value = '';
@@ -72,25 +128,13 @@ function sendMessage(event) {
 }
 
 
-const requestOptions = {
-    method: "GET",
-    redirect: "follow"
-  };
-  
-  fetch("/chats/public", requestOptions)
-  .then((response) => response.json())
-  .then((result) => {
-      result.forEach((message) => {
-          onMessageReceived({ body: JSON.stringify(message) });
-      });
-  })
-  .catch((error) => console.error(error));
 
 
  
 
 
 function onMessageReceived(payload) {
+    console.log(payload);
     var message = JSON.parse(payload.body);
 
     var messageElement = document.createElement('li');

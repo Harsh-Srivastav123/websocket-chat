@@ -1,16 +1,15 @@
 package com.websocketchat.websocketchat.controller;
 
-import com.websocketchat.websocketchat.model.ChatMessage;
 import com.websocketchat.websocketchat.model.ChatMessageDTO;
+import com.websocketchat.websocketchat.model.MessageType;
 import com.websocketchat.websocketchat.service.ChatService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 @Slf4j
@@ -19,25 +18,80 @@ public class MainController {
     @Autowired
     ChatService chatService;
 
+    @Autowired
+    SimpMessageSendingOperations messagingTemplate;
+
+
+//    StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+//    String username = (String) headerAccessor.getSessionAttributes().get("username");
+//        if (username != null) {
+//        log.info("user disconnected: {}", username);
+//        ChatMessageDTO chatMessage = ChatMessageDTO.builder()
+//                .type(MessageType.LEAVE)
+//                .sender(username)
+//                .build();
+//        messagingTemplate.convertAndSend("/topic/public", chatMessage);
+//    }
+
     @MessageMapping("/chat.sendMessage")
-    @SendTo("/topic/public")
-    public ChatMessageDTO sendMessage(
+//    @SendTo("/topic/public")
+    public void sendMessage(
             @Payload ChatMessageDTO chatMessage, SimpMessageHeaderAccessor headerAccessor
     ) {
+        log.info(chatMessage.toString());
+        String groupTopic;
+        if (chatMessage.getGroupTopic() == null) {
+            groupTopic = "public";
+        } else {
+            groupTopic = chatMessage.getGroupTopic();
+        }
         log.info(headerAccessor.getSessionAttributes().get("username").toString());
-        return chatService.addChat(chatMessage);
+
+        String username = (String) headerAccessor.getSessionAttributes().get("username");
+        if (username != null) {
+            ChatMessageDTO chat = ChatMessageDTO.builder()
+                    .type(MessageType.CHAT)
+                    .sender(username)
+                    .content(chatMessage.getContent())
+                    .groupTopic(groupTopic)
+                    .build();
+            messagingTemplate.convertAndSend("/topic/" + groupTopic, chat);
+        }
+
+
+        chatService.addChat(chatMessage);
     }
 
     @MessageMapping("/chat.addUser")
-    @SendTo("/topic/public")
-    public ChatMessageDTO addUser(
+//    @SendTo("/topic/public")
+    public void addUser(
             @Payload ChatMessageDTO chatMessage,
             SimpMessageHeaderAccessor headerAccessor
     ) {
+        log.info(chatMessage.toString());
         // Add username in web socket session
 
         headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-        return chatService.addChat(chatMessage);
+        headerAccessor.getSessionAttributes().put("groupTopic", chatMessage.getGroupTopic());
+
+        String groupTopic;
+        if (chatMessage.getGroupTopic() == null) {
+            groupTopic = "public";
+        } else {
+            groupTopic = chatMessage.getGroupTopic();
+        }
+        String username = (String) headerAccessor.getSessionAttributes().get("username");
+        if (username != null) {
+//            log.info("user disconnected: {}", username);
+            ChatMessageDTO chat = ChatMessageDTO.builder()
+                    .type(MessageType.JOIN)
+                    .sender(username)
+                    .groupTopic(groupTopic)
+                    .build();
+            messagingTemplate.convertAndSend("/topic/" + groupTopic, chatMessage);
+        }
+
+        chatService.addChat(chatMessage);
 
 
     }

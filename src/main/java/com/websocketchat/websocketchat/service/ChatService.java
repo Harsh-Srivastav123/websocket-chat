@@ -22,7 +22,8 @@ public class ChatService {
         return  modelMapper.map(chatDAO.save(modelMapper.map(chatMessage,ChatMessage.class)),ChatMessageDTO.class);
     }
 
-    public List<ChatMessageDTO> getAllChats() {
-        return chatDAO.findAll().stream().map(object->modelMapper.map(object,ChatMessageDTO.class)).collect(Collectors.toList());
+    public List<ChatMessageDTO> getAllChats(String groupTopic) {
+
+        return chatDAO.findByGroupTopic(groupTopic).stream().map(object->modelMapper.map(object,ChatMessageDTO.class)).collect(Collectors.toList());
     }
 }
