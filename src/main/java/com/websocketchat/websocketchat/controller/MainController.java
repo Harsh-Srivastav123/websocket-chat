@@ -3,6 +3,7 @@ package com.websocketchat.websocketchat.controller;
 import com.websocketchat.websocketchat.model.ChatMessageDTO;
 import com.websocketchat.websocketchat.model.MessageType;
 import com.websocketchat.websocketchat.service.ChatService;
+import com.websocketchat.websocketchat.service.KafkaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -20,6 +21,9 @@ public class MainController {
 
     @Autowired
     SimpMessageSendingOperations messagingTemplate;
+
+    @Autowired
+    KafkaService kafkaService;
 
 
 //    StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
@@ -55,7 +59,8 @@ public class MainController {
                     .content(chatMessage.getContent())
                     .groupTopic(groupTopic)
                     .build();
-            messagingTemplate.convertAndSend("/topic/" + groupTopic, chat);
+//            messagingTemplate.convertAndSend("/topic/" + groupTopic, chat);
+            kafkaService.updateChat(chat);
         }
 
 
@@ -88,7 +93,8 @@ public class MainController {
                     .sender(username)
                     .groupTopic(groupTopic)
                     .build();
-            messagingTemplate.convertAndSend("/topic/" + groupTopic, chatMessage);
+//            messagingTemplate.convertAndSend("/topic/" + groupTopic, chatMessage);
+            kafkaService.updateChat(chat);
         }
 
         chatService.addChat(chatMessage);

@@ -3,6 +3,7 @@ package com.websocketchat.websocketchat.config;
 import com.websocketchat.websocketchat.model.ChatMessage;
 import com.websocketchat.websocketchat.model.ChatMessageDTO;
 import com.websocketchat.websocketchat.model.MessageType;
+import com.websocketchat.websocketchat.service.KafkaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,8 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 public class WebsocketEventListener {
     @Autowired
     SimpMessagingTemplate messagingTemplate;
+    @Autowired
+    KafkaService kafkaService;
 
     @EventListener
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
@@ -30,7 +33,8 @@ public class WebsocketEventListener {
                     .groupTopic(groupTopic)
                     .build();
             log.info("/topic/"+groupTopic);
-            messagingTemplate.convertAndSend("/topic/"+groupTopic, chatMessage);
+//            messagingTemplate.convertAndSend("/topic/"+groupTopic, chatMessage);
+            kafkaService.updateChat(chatMessage);
         }
     }
 }

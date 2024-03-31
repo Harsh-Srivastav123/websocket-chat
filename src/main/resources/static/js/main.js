@@ -1,8 +1,5 @@
 'use strict';
 
-
-
-
 var usernamePage = document.querySelector('#username-page');
 var chatPage = document.querySelector('#chat-page');
 var usernameForm = document.querySelector('#usernameForm');
@@ -25,7 +22,8 @@ loadingIcon.style.visibility = 'hidden';
 
 function connect(event) {
     username = document.querySelector('#name').value.trim();
-    groupTopic=document.querySelector('#groupTopic').value.trim();
+    groupTopic = document.querySelector('#groupTopic').value.trim().toLowerCase();
+
     if(groupTopic.length==0){
         groupTopic="public";
     }
@@ -41,45 +39,28 @@ function connect(event) {
         redirect: "follow"
       };
       
-
-    //   .then((response) => response.json())
-    //   .then((result) => {
-    //       result.forEach((message) => {
-    //           onMessageReceived({ body: JSON.stringify(message) });
-    //       });
-    //   })
-    //   .catch((error) => console.error(error));
-      const apiFetch=async()=>{
-        const data=await fetch("/chats/"+groupTopic, requestOptions)
-        const result=await data.json();
-        result.forEach((message) => {
-            onMessageReceived({ body: JSON.stringify(message) });
-        
+      fetch("/chats/"+groupTopic, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+          result.forEach((message) => {
+              onMessageReceived({ body: JSON.stringify(message) });
+          });
       })
-    }
-      apiFetch();
-    
+      .catch((error) => console.error(error));
+
       
-    //   const delay = ms => new Promise(res => setTimeout(res, ms));
-
-
-    // async function main() {
-    //     await sleep(3000);
-    //     console.log("Hello");
-    //   }
     
     if(username) {
    
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
 
-        var socket = new SockJS('/server');//ws connection
+        var socket = new SockJS('/server');
         stompClient = Stomp.over(socket);
 
         stompClient.connect({}, onConnected, onError);
     }
     event.preventDefault();
-
 }
 
 
@@ -108,7 +89,7 @@ function onError(error) {
     // alert("connection lost retrying")
     setTimeout(() => {
         connect(event);
-    }, 5000);
+    }, 3000);
 }
 
 
