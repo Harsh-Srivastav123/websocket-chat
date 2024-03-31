@@ -46,8 +46,8 @@ jobs:
       
    
     - name: Run docker container-1
-      run: sudo docker run -d -p 8080:8080 --name socket-container-1 socket sleep infinity| echo "success"
+      run: sudo docker run -d -p 8080:8080 --name socket-container-1 --network=mynetwork socket sleep infinity| echo "success"
     - name: Run docker container-2
-      run: sudo docker run -d -p 9090:8080 --name socket-container-2 socket sleep infinity| echo "success" 
+      run: sudo docker run -d -p 9090:8080 --name socket-container-2 --network=mynetwork socket sleep infinity| echo "success" 
     - name: Run docker container-3
-      run: sudo docker run -d -p 8000:8080 --name socket-container-3 socket sleep infinity| echo "success"     
+      run: sudo docker run -d -p 8000:8080 --name socket-container-3 --network=mynetwork socket sleep infinity| echo "success"     
