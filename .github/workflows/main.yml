@@ -87,7 +87,7 @@ jobs:
 
       - name: Build and copy app1 jar
         run: |
-          cd app1
+          sudo cd app1
           ./mvnw clean package
           cp target/chat-1.jar ../jarlocator/
           
