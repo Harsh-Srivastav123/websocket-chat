@@ -1,0 +1,16 @@
+com\websocketchat\websocketchat\config\WebsocketEventListener.class
+com\websocketchat\websocketchat\config\KafkaListenerConfiguration.class
+com\websocketchat\websocketchat\model\ChatMessage.class
+com\websocketchat\websocketchat\controller\ChatController.class
+com\websocketchat\websocketchat\config\GeneralConfiguration.class
+com\websocketchat\websocketchat\model\ChatMessageDTO$ChatMessageDTOBuilder.class
+com\websocketchat\websocketchat\service\ChatService.class
+com\websocketchat\websocketchat\controller\MainController.class
+com\websocketchat\websocketchat\WebsocketChatApplication.class
+com\websocketchat\websocketchat\DAO\ChatDAO.class
+com\websocketchat\websocketchat\config\KafkaConfiguration.class
+com\websocketchat\websocketchat\model\ChatMessageDTO.class
+com\websocketchat\websocketchat\service\KafkaService.class
+com\websocketchat\websocketchat\model\ChatMessage$ChatMessageBuilder.class
+com\websocketchat\websocketchat\model\MessageType.class
+com\websocketchat\websocketchat\config\WebSocketConfiguration.class
