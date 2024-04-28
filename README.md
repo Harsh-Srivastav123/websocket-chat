@@ -15,11 +15,9 @@ Integration of multimedia sharing capabilities is underway, utilizing AWS S3 for
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Configuration](#configuration)
-- [Frontend Development](#frontend-development)
+
 - [Deployment](#deployment)
 - [Key Points](#key-points)
-- [Postman Collection (Work in Progress)](#postman-collection-work-in-progress)
-- [Swagger API Documentation](#swagger-api-documentation)
 
 ## Project Overview
 
@@ -41,7 +39,6 @@ ChatRoomApp offers the following features:
 - **Join and Leave Chatrooms:** Participants can join or leave chatrooms at any time.
 - **Persistent Chat History:** All chatroom conversations are stored in a MySQL database, allowing users to retrieve previous chats.
 
-### Scalability:
 
 
 
