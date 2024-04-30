@@ -140,6 +140,6 @@ jobs:
 
       - name: Run JAR for 8000 , 8080 ,9090
         run: |
-          nohup java -jar -Dserver.port=8000 -Dspring.consumer.group-id=group-1 -Dkafka.groupId=group-1 websocket-chat-0.0.1-SNAPSHOT.jar &
-          nohup java -jar -Dserver.port=8080 -Dspring.consumer.group-id=group-2 -Dkafka.groupId=group-2 websocket-chat-0.0.1-SNAPSHOT.jar &
-          nohup java -jar -Dserver.port=9000 -Dspring.consumer.group-id=group-3 -Dkafka.groupId=group-3 websocket-chat-0.0.1-SNAPSHOT.jar &
+          nohup java -jar -Dserver.port=8000 -Dspring.consumer.group-id=group-1 -Dkafka.groupId=group-1 target/websocket-chat-0.0.1-SNAPSHOT.jar &
+          nohup java -jar -Dserver.port=8080 -Dspring.consumer.group-id=group-2 -Dkafka.groupId=group-2 target/websocket-chat-0.0.1-SNAPSHOT.jar &
+          nohup java -jar -Dserver.port=9000 -Dspring.consumer.group-id=group-3 -Dkafka.groupId=group-3 target/websocket-chat-0.0.1-SNAPSHOT.jar &
