@@ -136,7 +136,7 @@ jobs:
 
       - name: Stop processes on ports 8080, 8000, 9090
         run: |
-          sudo lsof -ti:8080,8000,9090 | xargs kill -9
+          sudo -n lsof -ti:8080,8000,9090 | xargs sudo -n kill -9
 
       - name: Run JAR
         run: |
