@@ -140,7 +140,7 @@ jobs:
 
       - name: Stop processes on ports 8080, 8000, 9090
         run: |
-          pkill -f "java -jar"
+          pkill -f "java -jar" || true
           sleep 5  # Wait for processes to terminate
 
       - name: Run JAR for 8000 
