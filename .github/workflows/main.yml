@@ -136,7 +136,7 @@ jobs:
 
       - name: Stop processes on ports 8080, 8000, 9090
         run: |
-          killall -9 java
+          killall -9 java || true
 
       - name: Run JAR
         run: |
