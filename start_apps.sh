@@ -10,4 +10,4 @@ pm2 stop app2 || true
 pm2 start --name app2 java -- -jar target/websocket-chat-0.0.1-SNAPSHOT.jar --server.port=8080 --kafka.groupId=group-2
 pm2 stop app3 || true
 # Start new Spring Boot application on port 9000
-pm2 start --name app3 java -- -jar target/websocket-chat-0.0.1-SNAPSHOT.jar --server.port=9000 --kafka.groupId=group-3
+# pm2 start --name app3 java -- -jar target/websocket-chat-0.0.1-SNAPSHOT.jar --server.port=9000 --kafka.groupId=group-3
