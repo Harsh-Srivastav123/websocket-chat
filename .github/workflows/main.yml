@@ -112,7 +112,50 @@
       # - name: Run app3 jar
       #   run: java -jar jarlocator/chat-3.jar &
 
-name: Build and Run Spring Boot
+# name: Build and Run Spring Boot
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build-and-run:
+#     runs-on: [self-hosted, Linux, X64, socket]
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       # - name: Set up JDK 17
+#       #   uses: actions/setup-java@v2
+#       #   with:
+#       #     java-version: '17'
+
+#       - name: Build Maven project
+#         run: mvn -B package --file pom.xml
+
+#       # - name: Stop processes on ports 8080, 8000, 9090
+#       #   run: |
+#       #     killall -9 java || true
+
+#       - name: Stop processes on ports 8080, 8000, 9090
+#         run: |
+#           pkill -f "java -jar" || true
+#           sleep 5  # Wait for processes to terminate
+
+#       - name: Run JAR for 8000 
+#         run: |
+#           nohup java -jar -Dserver.port=8000 -Dspring.consumer.group-id=group-1 -Dkafka.groupId=group-1 target/websocket-chat-0.0.1-SNAPSHOT.jar &
+#       - name: Run JAR for 8080
+#         run: |
+#           nohup java -jar -Dserver.port=8080 -Dspring.consumer.group-id=group-2 -Dkafka.groupId=group-2 target/websocket-chat-0.0.1-SNAPSHOT.jar &  
+#       - name: Run JAR for 9090
+#         run: |
+#           nohup java -jar -Dserver.port=9090 -Dspring.consumer.group-id=group-3 -Dkafka.groupId=group-3 target/websocket-chat-0.0.1-SNAPSHOT.jar &  
+
+
+
+name: CI/CD Pipeline
 
 on:
   push:
@@ -120,35 +163,24 @@ on:
       - main
 
 jobs:
-  build-and-run:
+  build:
     runs-on: [self-hosted, Linux, X64, socket]
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      # - name: Set up JDK 17
-      #   uses: actions/setup-java@v2
-      #   with:
-      #     java-version: '17'
-
-      - name: Build Maven project
-        run: mvn -B package --file pom.xml
-
-      # - name: Stop processes on ports 8080, 8000, 9090
-      #   run: |
-      #     killall -9 java || true
-
-      - name: Stop processes on ports 8080, 8000, 9090
-        run: |
-          pkill -f "java -jar" || true
-          sleep 5  # Wait for processes to terminate
-
-      - name: Run JAR for 8000 
-        run: |
-          nohup java -jar -Dserver.port=8000 -Dspring.consumer.group-id=group-1 -Dkafka.groupId=group-1 target/websocket-chat-0.0.1-SNAPSHOT.jar &
-      - name: Run JAR for 8080
-        run: |
-          nohup java -jar -Dserver.port=8080 -Dspring.consumer.group-id=group-2 -Dkafka.groupId=group-2 target/websocket-chat-0.0.1-SNAPSHOT.jar &  
-      - name: Run JAR for 9090
-        run: |
-          nohup java -jar -Dserver.port=9090 -Dspring.consumer.group-id=group-3 -Dkafka.groupId=group-3 target/websocket-chat-0.0.1-SNAPSHOT.jar &     
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    # - name: Set up JDK 17
+    #   uses: actions/setup-java@v2
+    #   with:
+    #     java-version: '11'
+        
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+      
+    # - name: Install pm2
+    #   run: npm install pm2 -g
+      
+    - name: Run script to start Spring Boot apps with PM2
+      run: ./start_apps.sh
+      # working-directory: ./path/to/your/scripts/directory
