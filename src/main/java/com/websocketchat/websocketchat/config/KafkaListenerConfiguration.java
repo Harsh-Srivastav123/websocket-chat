@@ -1,4 +1,3 @@
-
 package com.websocketchat.websocketchat.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;

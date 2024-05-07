@@ -23,4 +23,5 @@ public class MediaMessage {
     Long size;
     Boolean status;
     String type;
+
 }

@@ -1,6 +1,6 @@
 package com.websocketchat.websocketchat.DAO;
 
-import com.websocketchat.websocketchat.model.ChatMessage;
+import com.websocketchat.websocketchat.entity.ChatMessage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

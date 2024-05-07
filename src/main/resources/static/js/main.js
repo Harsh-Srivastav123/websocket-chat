@@ -142,13 +142,6 @@ function onMessageReceived(payload) {
         messageElement.appendChild(usernameElement);
     }
 
-    messageElement.addEventListener('click', function() {
-        // Your action when a chat message is clicked
-        console.log('Clicked on message:', message);
-        // Example: Open a modal with the message details
-        // openModal(message);
-    });
-
     var textElement = document.createElement('p');
     var messageText = document.createTextNode(message.content);
     textElement.appendChild(messageText);

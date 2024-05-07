@@ -13,4 +13,5 @@ public class ChatMessageDTO {
     private String content;
     private String sender;
     private  String groupTopic;
+    private String referenceId;
 }

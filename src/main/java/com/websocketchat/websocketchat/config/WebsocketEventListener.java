@@ -1,6 +1,5 @@
 package com.websocketchat.websocketchat.config;
 
-import com.websocketchat.websocketchat.model.ChatMessage;
 import com.websocketchat.websocketchat.model.ChatMessageDTO;
 import com.websocketchat.websocketchat.model.MessageType;
 import com.websocketchat.websocketchat.service.KafkaService;
@@ -8,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
