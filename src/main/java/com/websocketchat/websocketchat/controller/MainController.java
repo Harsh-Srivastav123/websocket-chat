@@ -54,10 +54,11 @@ public class MainController {
         String username = (String) headerAccessor.getSessionAttributes().get("username");
         if (username != null) {
             ChatMessageDTO chat = ChatMessageDTO.builder()
-                    .type(MessageType.CHAT)
+                    .type(chatMessage.getType())
                     .sender(username)
                     .content(chatMessage.getContent())
                     .groupTopic(groupTopic)
+                    .referenceId(chatMessage.getReferenceId())
                     .build();
 //            messagingTemplate.convertAndSend("/topic/" + groupTopic, chat);
             kafkaService.updateChat(chat);

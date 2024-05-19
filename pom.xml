@@ -65,22 +65,22 @@
 <!--			<artifactId>aws-java-sdk</artifactId>-->
 <!--			<version>1.8.7</version>-->
 <!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>com.amazonaws</groupId>-->
-<!--			<artifactId>aws-java-sdk-s3</artifactId>-->
-<!--			<version>1.12.705</version>-->
-<!--		</dependency>-->
-
-		<dependency>
-			<groupId>software.amazon.awssdk</groupId>
-			<artifactId>aws-sdk-java</artifactId>
-			<version>2.25.45</version>
-		</dependency>
 		<dependency>
 			<groupId>com.amazonaws</groupId>
-			<artifactId>aws-java-sdk</artifactId>
+			<artifactId>aws-java-sdk-s3</artifactId>
 			<version>1.12.705</version>
 		</dependency>
+
+<!--		<dependency>-->
+<!--			<groupId>software.amazon.awssdk</groupId>-->
+<!--			<artifactId>aws-sdk-java</artifactId>-->
+<!--			<version>2.25.45</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>com.amazonaws</groupId>-->
+<!--			<artifactId>aws-java-sdk</artifactId>-->
+<!--			<version>1.12.705</version>-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<build>
