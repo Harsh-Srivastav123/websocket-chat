@@ -169,6 +169,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+
+    - name: Upload file config.properties
+      run: cp /home/srivastavharsh2003/config.properties ./src/main/resources 
       
     # - name: Set up JDK 17
     #   uses: actions/setup-java@v2
