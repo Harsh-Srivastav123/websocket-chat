@@ -6,6 +6,7 @@ import com.websocketchat.websocketchat.entity.ChatMessage;
 import com.websocketchat.websocketchat.entity.MediaMessage;
 import com.websocketchat.websocketchat.model.ChatMessageDTO;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ChatService {
 
     @Autowired
@@ -34,7 +36,27 @@ public class ChatService {
     AwsServices awsServices;
 
     public ChatMessageDTO addChat(ChatMessageDTO chatMessage) {
-        return  modelMapper.map(chatDAO.save(modelMapper.map(chatMessage,ChatMessage.class)),ChatMessageDTO.class);
+        log.info(chatMessage.toString());
+
+//       try{
+//           ChatMessage chatMessage1=modelMapper.map(chatMessage,ChatMessage.class);
+//           ChatMessage chatMessage2=chatDAO.save(chatMessage1);
+//
+//           return modelMapper.map(chatMessage2,ChatMessageDTO.class);
+//       }
+//       catch (Exception e){
+//           e.printStackTrace();
+//           throw new RuntimeException(e);
+//       }
+
+        ChatMessage chatMessage1=new ChatMessage();
+        chatMessage1.setContent(chatMessage.getContent());
+        chatMessage1.setType(chatMessage.getType());
+        chatMessage1.setReferenceId(chatMessage.getReferenceId());
+        chatMessage1.setGroupTopic(chatMessage.getGroupTopic());
+        chatMessage1.setSender(chatMessage.getSender());
+        chatDAO.save(chatMessage1);
+        return chatMessage;
     }
 
     public List<ChatMessageDTO> getAllChats(String groupTopic) {

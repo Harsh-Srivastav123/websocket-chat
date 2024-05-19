@@ -27,12 +27,12 @@
         </form>
     </div>
 </div>
-              <!-- //loading on websocket connection lost -->
-              <div  id="loading-icon" class="d-flex align-items-center">
-                <strong role="status">restablishing websocket connection</strong>
-                <div class="spinner-border ms-auto" aria-hidden="true"></div>
-            </div>
-        
+<!-- //loading on websocket connection lost -->
+<div  id="loading-icon" class="d-flex align-items-center">
+    <strong role="status">restablishing websocket connection</strong>
+    <div class="spinner-border ms-auto" aria-hidden="true"></div>
+</div>
+
 
 <div id="chat-page" class="hidden">
 
@@ -52,7 +52,10 @@
             <div class="form-group">
                 <div class="input-group clearfix">
                     <input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
-                    <button type="submit" class="primary">Send</button>
+                    <div class="sub-med-container"><button type="submit" class="send_btn">Send</button>
+                        <button id="mediaButton" type="submit" class="media_btn">Media</button></div>
+
+                    <input type="file" id="fileInput" style="display: none;">
                 </div>
             </div>
         </form>

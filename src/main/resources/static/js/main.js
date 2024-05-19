@@ -9,6 +9,8 @@ var messageArea = document.querySelector('#messageArea');
 var loadingIcon=document.querySelector('#loading-icon')
 var connectingElement = document.querySelector('.connecting');
 
+var mediaButton = document.querySelector('#mediaButton');
+
 var stompClient = null;
 var username = null;
 var groupTopic=null;
@@ -62,6 +64,58 @@ function connect(event) {
     }
     event.preventDefault();
 }
+
+mediaButton.addEventListener('click',
+    function(){
+        document.getElementById('fileInput').click(); 
+    }
+)
+
+
+
+document.getElementById('fileInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    var token=generateUUID()
+    console.log(token)
+    if (file) {
+        const formData = new FormData();
+        formData.append('media', file);
+        formData.append("reference",token );
+
+
+            if(stompClient) {
+                var chatMessage = {
+                sender: username,
+                content: "CLICK HERE TO SEE MEDIA CONTENT",
+                type: 'MEDIA',
+                groupTopic : groupTopic,
+                referenceId : token
+                };
+                stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+                messageInput.value = '';
+            }
+
+        fetch('/chats/uploadMedia', {
+            method: 'POST',
+            body: formData,
+            redirect: "follow"
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('File uploaded successfully');
+
+                // Handle success, maybe display a message to the user
+            } else {
+                console.error('Failed to upload file');
+                // Handle error, maybe display an error message to the user
+            }
+        })
+        .catch(error => {
+            console.error('Error uploading file:', error);
+            // Handle error, maybe display an error message to the user
+        });
+    }
+});
 
 
 function onConnected() {
@@ -144,12 +198,65 @@ function onMessageReceived(payload) {
 
     var textElement = document.createElement('p');
     var messageText = document.createTextNode(message.content);
+
+    if(message.type==='MEDIA'){
+    //     var coloredTextElement = document.createElement('span');
+    //     coloredTextElement.style.color = 'blue'; // Set the color to red (you can use any color here)
+
+    // coloredTextElement.appendChild(messageText);
+
+       textElement.style.color = 'blue'; 
+    }
     textElement.appendChild(messageText);
 
     messageElement.appendChild(textElement);
 
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
+
+    messageElement.addEventListener('click', function() {
+        // Your action when a chat message is clicked
+        console.log('Clicked on message:', message);
+        // Example: Open a modal with the message details
+        // openModal(message);
+        if(message.type=='MEDIA'){
+    //         fetch(`)
+    // .then(response => response.blob())
+    // .then(blob => {
+    //     // Create a URL for the blob
+    //     const url = URL.createObjectURL(blob);
+
+    //     // Open the media file in a new tab
+    //     window.open(url, '_blank');
+    // })
+    // .catch(error => {
+    //     console.error('Error fetching media:', error);
+    //     // Handle the error, show an alert or a message to the user
+    // });
+
+    var url = window.location.origin + "/chats/download/" + message.referenceId;
+    window.open(url, '_blank');
+
+
+    // window.open("/chats/downloads/"+message.referenceId, '_blank');
+
+
+
+    // const requestOptions = {
+    //     method: "GET",
+    //     redirect: "follow"
+    //   };
+      
+    //   fetch("/chats/download/${message.referenceId}", requestOptions)
+    //     .then((response) => response.text())
+    //     .then((result) => console.log(result))
+    //     .catch((error) => console.error(error));
+
+
+
+        }
+    });
+
 }
 
 
@@ -164,3 +271,13 @@ function getAvatarColor(messageSender) {
 
 usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', sendMessage, true)
+
+
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    .replace(/[xy]/g, function (c) {
+        const r = Math.random() * 16 | 0, 
+            v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
