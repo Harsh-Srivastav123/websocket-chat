@@ -6,6 +6,8 @@ The CI/CD pipeline, established with GitHub Actions, expedites deployment proces
 
 Integration of multimedia sharing capabilities is underway, utilizing AWS S3 for efficient storage and retrieval of multimedia content within chats.
 
+![Deployment](https://github.com/Harsh-Srivastav123/websocket-chat/blob/main/chatroom-1.png)
+
 ## Table of Contents
 
 - [Project Overview](#project-overview)
