@@ -46,7 +46,7 @@ ChatRoomApp offers the following features:
 
 WebSocket scaling in ChatRoomApp is achieved through integration with Apache Kafka, facilitating real-time communication across different microservices. This section details the implementation and benefits of WebSocket scaling:
 
-### Implementation
+## Implementation
 
 1. **Integration with Apache Kafka:** ChatRoomApp integrates with Apache Kafka, a distributed event streaming platform, to enable real-time messaging and scaling.
    
@@ -56,7 +56,7 @@ WebSocket scaling in ChatRoomApp is achieved through integration with Apache Kaf
    
 4. **Load Balancing:** Nginx, acting as a load balancer, distributes incoming WebSocket connections across multiple instances of ChatRoomApp microservices. This ensures efficient utilization of resources and optimal performance.
 
-### Benefits
+## Benefits
 
 1. **Scalability:** Integration with Apache Kafka enables horizontal scaling of WebSocket communication. As the number of users and messages increases, additional instances of ChatRoomApp microservices can be deployed to handle the load.
    
@@ -66,7 +66,7 @@ WebSocket scaling in ChatRoomApp is achieved through integration with Apache Kaf
    
 4. **Efficient Resource Utilization:** Load balancing and message distribution across multiple microservice instances ensure efficient resource utilization, optimizing performance and reliability.
 
-### Future Considerations
+## Future Considerations
 
 1. **Monitoring and Optimization:** Continuous monitoring and optimization of Kafka and microservice instances are essential to maintain optimal performance and scalability.
    
@@ -83,10 +83,10 @@ WebSocket scaling in ChatRoomApp is achieved through integration with Apache Kaf
 WebSocket scaling with Apache Kafka in ChatRoomApp provides a robust foundation for real-time communication, ensuring scalability, fault tolerance, and optimal performance across microservices.
 
 
-### CI/CD Pipeline:
+## CI/CD Pipeline:
 - **GitHub Actions:** Establishes a CI/CD pipeline for automated build, test, and deployment processes, ensuring rapid delivery of updates.
 
-### Multimedia Integration (Work in Progress):
+### Multimedia Integration :
 - **AWS S3 Integration:** Work in progress for multimedia integration, enabling users to share multimedia content within chats. Utilizes AWS S3 for efficient storage and retrieval.
 
 ## Technologies Used
@@ -99,7 +99,7 @@ WebSocket scaling with Apache Kafka in ChatRoomApp provides a robust foundation 
 - GitHub Actions
 - AWS EC2
 - Nginx
-- AWS S3 (Work in Progress)
+- AWS S3 
 
 ## Getting Started
 
@@ -118,4 +118,4 @@ Ensure the following are installed:
 1. Clone the repository:
 
    ```shell
-   git clone https://github.com/yourusername/chatroomapp.git
+   git clone https://github.com/yourusername/websocket-chat.git
