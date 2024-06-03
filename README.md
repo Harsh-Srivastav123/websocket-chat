@@ -73,6 +73,12 @@ WebSocket scaling in ChatRoomApp is achieved through integration with Apache Kaf
 2. **Auto-scaling:** Implementing auto-scaling policies based on metrics such as message queue length and CPU utilization can further enhance scalability and resource efficiency.
    
 3. **Security Considerations:** Ensure proper security measures are in place to protect Kafka clusters and WebSocket connections from potential threats, such as unauthorized access or data breaches.
+  
+5. **AWS DynamoDB:** Shift towards using AWS DynamoDB for chat history storage to leverage its scalability and performance.
+
+6. **Microservices Architecture:** Enhance microservice architecture by integrating Kafka for separate microservices, focusing on chat saving.
+
+7. **Monitoring and Observability:** Implement Grafana, Loki, and Prometheus for robust log monitoring and observability.
 
 WebSocket scaling with Apache Kafka in ChatRoomApp provides a robust foundation for real-time communication, ensuring scalability, fault tolerance, and optimal performance across microservices.
 
