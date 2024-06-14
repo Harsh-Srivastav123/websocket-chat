@@ -8,6 +8,26 @@ Integration of multimedia sharing capabilities is underway, utilizing AWS S3 for
 
 ![Deployment](https://github.com/Harsh-Srivastav123/websocket-chat/blob/main/chatroom-1.png)
 
+## Chatroom Application Usage
+
+![Chatroom](https://github.com/Harsh-Srivastav123/websocket-chat/blob/main/Screenshot%20(776).png)
+
+## Join the Chat
+- Enter a username to join.
+- Enter a group name to join or create a group.
+- Multiple users can join the same group with the same name.
+
+## WebSocket Scaling
+- Test horizontal scaling by joining through ports 8080 and 8000.
+- Instances are connected via Apache Kafka.
+
+## Media Sharing
+- Share media within the group.
+- Media files are stored in AWS S3 and can be accessed securely by group members without exposing the S3 URL.
+
+This chatroom app ensures scalable, secure communication and media sharing.
+
+
 ## Table of Contents
 
 - [Project Overview](#project-overview)
