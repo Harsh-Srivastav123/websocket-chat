@@ -175,7 +175,7 @@ jobs:
       run: sudo docker container stop kafak-container || true
 
     - name: Upload file config.properties
-      run: cp /home/srivastavharsh2003/config.properties ./src/main/resources 
+      run: cp /home/ubuntu/config.properties ./src/main/resources 
       
     # - name: Set up JDK 17
     #   uses: actions/setup-java@v2
