@@ -164,7 +164,7 @@ on:
 
 jobs:
   build:
-    runs-on: [self-hosted, Linux, X64, socket-1]
+    runs-on: [self-hosted, Linux, X64, aws]
     
     steps:
     - name: Checkout code
