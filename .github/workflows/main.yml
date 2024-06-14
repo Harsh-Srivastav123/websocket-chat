@@ -170,6 +170,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+
+    - name: stop Kafka
+      run: sudo docker container stop kafak-container || true
+
     - name: Upload file config.properties
       run: cp /home/srivastavharsh2003/config.properties ./src/main/resources 
       
@@ -180,6 +184,12 @@ jobs:
         
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+
+    - name: Delete Kafka container
+      run: sudo docker rm kafak-container || true
+      
+    - name: Start Kafka Container 
+      run: sudo docker run -d -p 9042:9042 --name kafak-container apache/kafka:3.7.0
 
     - name: Grant execute permission to script
       run: chmod +x start_apps.sh
