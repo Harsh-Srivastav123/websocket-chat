@@ -189,7 +189,7 @@ jobs:
       run: sudo docker rm kafak-container || true
       
     - name: Start Kafka Container 
-      run: sudo docker run -d -p 9042:9042 --name kafak-container apache/kafka:3.7.0
+      run: sudo docker run -d -p 9092:9092 --name kafak-container apache/kafka:3.7.0
 
     - name: Grant execute permission to script
       run: chmod +x start_apps.sh
