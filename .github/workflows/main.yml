@@ -164,7 +164,7 @@ on:
 
 jobs:
   build:
-    runs-on: [self-hosted, Linux, X64, aws]
+    runs-on: [self-hosted, Linux, X64, chatroom-app-runner]
     
     steps:
     - name: Checkout code
