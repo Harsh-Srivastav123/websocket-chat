@@ -7,29 +7,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 
 @Configuration
 public class AwsS3Configuration {
 
 
-
-    @Value("${aws.accessKey}")
-    private String accessKey;
-
-    @Value("${aws.secretKey}")
-    private String secretKey;
-
     @Value("${aws.region}")
     private String region;
 
-
     @Bean
-    public AmazonS3 getConfiguration(){
-        BasicAWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
-        AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(credentials))
+    public AmazonS3 getConfiguration() {
+        return AmazonS3ClientBuilder.standard()
                 .withRegion(region)
+                // Use default credential provider chain which includes IAM roles
+                .withCredentials(new DefaultAWSCredentialsProviderChain())
                 .build();
-        return s3Client;
     }
 }

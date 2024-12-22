@@ -58,7 +58,7 @@ public class ChatService {
         chatDAO.save(chatMessage1);
         return chatMessage;
     }
-
+//TODO chat saving logic will move to dyanmo db part batch saving
     public List<ChatMessageDTO> getAllChats(String groupTopic) {
 
         return chatDAO.findByGroupTopic(groupTopic).stream().map(object->modelMapper.map(object,ChatMessageDTO.class)).collect(Collectors.toList());
@@ -66,16 +66,7 @@ public class ChatService {
 
     public void uploadMedia(MultipartFile file, String referenceId) {
 
-//        String referenceId;
-//
-////    @OneToOne
-////    @JoinColumn(name = "media",referencedColumnName = "mediaContentId")
-////    ChatMessage chatMessage;
-//        String url;
-//        String name;
-//        String size;
-//
-//        String type;
+
 
         String fileName= UUID.randomUUID().toString()+"_"+file.getName();
         MediaMessage mediaMessage=new MediaMessage(referenceId,null,fileName,file.getSize(),false,file.getContentType());
