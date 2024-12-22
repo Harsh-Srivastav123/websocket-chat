@@ -1,22 +1,19 @@
 package com.websocketchat.websocketchat.config;
 
-import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
-import com.amazonaws.services.secretsmanager.AWSSecretsManager;
-import com.amazonaws.services.secretsmanager.AWSSecretsManagerClientBuilder;
-import com.amazonaws.services.secretsmanager.model.GetSecretValueRequest;
-import com.amazonaws.services.secretsmanager.model.GetSecretValueResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.websocketchat.websocketchat.model.AppSecrets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-
-import javax.annotation.PostConstruct;
-
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
+import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRequest;
+import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueResponse;
 
 import javax.sql.DataSource;
+import jakarta.annotation.PostConstruct;
 
 @Slf4j
 @Configuration
@@ -26,30 +23,29 @@ public class SecretsConfig {
     private String region;
 
     @Value("${aws.secrets.database-secret}")
-    private String databaseSecret;
+    private String secretName;
 
     private AppSecrets appSecrets;
 
     @PostConstruct
     public void init() {
         try {
-            // Create a Secrets Manager client
-            AWSSecretsManager client = AWSSecretsManagerClientBuilder.standard()
-                    .withRegion(region)
-                    .withCredentials(new DefaultAWSCredentialsProviderChain())
+            SecretsManagerClient client = SecretsManagerClient.builder()
+                    .region(Region.of(region))
                     .build();
 
-            GetSecretValueRequest request = new GetSecretValueRequest()
-                    .withSecretId(databaseSecret);
+            GetSecretValueRequest request = GetSecretValueRequest.builder()
+                    .secretId(secretName)
+                    .build();
 
-            GetSecretValueResult result = client.getSecretValue(request);
-            String secret = result.getSecretString();
+            GetSecretValueResponse response = client.getSecretValue(request);
+            String secret = response.secretString();
 
-            // Parse the secret JSON
             ObjectMapper objectMapper = new ObjectMapper();
             appSecrets = objectMapper.readValue(secret, AppSecrets.class);
-            log.info(appSecrets.toString());
+            log.info("Successfully loaded database secrets");
         } catch (Exception e) {
+            log.error("Error fetching secrets: ", e);
             throw new RuntimeException("Error fetching secrets", e);
         }
     }
