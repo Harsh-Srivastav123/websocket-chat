@@ -1,4 +1,4 @@
-# ChatRoomApp - Spring Boot Project
+# ChatRoomApp  - Spring Boot Project
 
 ChatRoomApp, powered by Java Spring Boot, is a real-time chatting application that leverages WebSocket technology for seamless communication. Users can join chatrooms and engage in conversations with other participants. The application ensures persistent chat history using a MySQL database, allowing users to rejoin chatrooms and retrieve previous conversations effortlessly. Additionally, ChatRoomApp features scalability enhancements through Apache Kafka, enabling real-time communication across microservices. 
 
